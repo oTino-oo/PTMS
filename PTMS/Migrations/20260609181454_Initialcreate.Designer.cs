@@ -12,8 +12,8 @@ using PTMS.Data;
 namespace PTMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260606154113_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260609181454_Initialcreate")]
+    partial class Initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,22 +253,21 @@ namespace PTMS.Migrations
 
             modelBuilder.Entity("PTMS.Models.Client", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FitnessGoal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Clients");
                 });
@@ -320,18 +319,10 @@ namespace PTMS.Migrations
                     b.Property<DateTime>("SessionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TrainerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TrainerId");
 
                     b.ToTable("Sessions");
                 });
@@ -344,47 +335,17 @@ namespace PTMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Specialisation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Trainers");
-                });
-
-            modelBuilder.Entity("PTMS.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
+                    b.Property<string>("Speciality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Trainers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -449,17 +410,6 @@ namespace PTMS.Migrations
                     b.Navigation("Trainer");
                 });
 
-            modelBuilder.Entity("PTMS.Models.Client", b =>
-                {
-                    b.HasOne("PTMS.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PTMS.Models.Progress", b =>
                 {
                     b.HasOne("PTMS.Models.Client", "Client")
@@ -477,36 +427,6 @@ namespace PTMS.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Trainer");
-                });
-
-            modelBuilder.Entity("PTMS.Models.Session", b =>
-                {
-                    b.HasOne("PTMS.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("PTMS.Models.Trainer", "Trainer")
-                        .WithMany()
-                        .HasForeignKey("TrainerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Trainer");
-                });
-
-            modelBuilder.Entity("PTMS.Models.Trainer", b =>
-                {
-                    b.HasOne("PTMS.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

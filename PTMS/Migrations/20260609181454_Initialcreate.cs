@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PTMS.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,19 +51,46 @@ namespace PTMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FitnessGoal = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    TrainerId = table.Column<int>(type: "int", nullable: false),
+                    SessionDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trainers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Speciality = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Trainers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,44 +194,6 @@ namespace PTMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clients",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FitnessGoal = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clients", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Clients_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Trainers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Specialisation = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Trainers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Trainers_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Availability",
                 columns: table => new
                 {
@@ -243,35 +232,9 @@ namespace PTMS.Migrations
                         name: "FK_Progress_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
-                        principalColumn: "id");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Progress_Trainers_TrainerId",
-                        column: x => x.TrainerId,
-                        principalTable: "Trainers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sessions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    TrainerId = table.Column<int>(type: "int", nullable: false),
-                    SessionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sessions_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Sessions_Trainers_TrainerId",
                         column: x => x.TrainerId,
                         principalTable: "Trainers",
                         principalColumn: "Id");
@@ -322,11 +285,6 @@ namespace PTMS.Migrations
                 column: "TrainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_UserId",
-                table: "Clients",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Progress_ClientId",
                 table: "Progress",
                 column: "ClientId");
@@ -335,21 +293,6 @@ namespace PTMS.Migrations
                 name: "IX_Progress_TrainerId",
                 table: "Progress",
                 column: "TrainerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sessions_ClientId",
-                table: "Sessions",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sessions_TrainerId",
-                table: "Sessions",
-                column: "TrainerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trainers_UserId",
-                table: "Trainers",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -390,9 +333,6 @@ namespace PTMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Trainers");
-
-            migrationBuilder.DropTable(
-                name: "User");
         }
     }
 }

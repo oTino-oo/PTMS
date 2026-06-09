@@ -5,15 +5,18 @@
 }
 
 <div class="text-center">
+
     <h2 class="display-4">Personal Training Management</h2>
+
     <p>
         Connect with your personal trainer, access your workout plans,
         track your progress, and stay motivated throughout your fitness journey.
     </p>
 
     <br>
+
     <h3>What You Can Do</h3>
- 
+
     <p>
         - Access personalised training programmes designed specifically
         for your goals and fitness level.
@@ -23,7 +26,7 @@
         - Monitor your achievements, record results, and see how far
         you've come over time.
     </p>
-  
+
     <p>
         - Book and view training sessions with your personal trainer
         in one convenient place.
@@ -34,8 +37,65 @@
         you need support.
     </p>
 
+    <br />
 
-  <br>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <hr />
 
-<p>GET STARTED</p> <!-- This would be changed into a button to open the Register/Login Page. -->
+        <h4>Your Dashboard</h4>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                <a class="btn btn-primary"
+                   asp-page="/Admin/Dashboard">
+                    Go to Admin Dashboard
+                </a>
+            </p>
+        }
+
+        @if (User.IsInRole("PT"))
+        {
+            <p>
+                <a class="btn btn-primary"
+                   asp-page="/PT/Dashboard">
+                    Go to PT Dashboard
+                </a>
+            </p>
+        }
+
+        @if (User.IsInRole("Client"))
+        {
+            <p>
+                <a class="btn btn-primary"
+                   asp-page="/Client/Dashboard">
+                    Go to Client Dashboard
+                </a>
+            </p>
+        }
+    }
+    else
+    {
+        <hr />
+
+        <p>
+            <a class="btn btn-success"
+               asp-area="Identity"
+               asp-page="/Account/Login">
+                Login
+            </a>
+
+            <a class="btn btn-outline-primary"
+               asp-area="Identity"
+               asp-page="/Account/Register">
+                Register
+            </a>
+        </p>
+    }
+
+    <br />
+
+    <p><strong>GET STARTED</strong></p>
+
 </div>
