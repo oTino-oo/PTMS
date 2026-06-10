@@ -1,0 +1,38 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Client")]
+@model BookModel
+
+<h1>Booking Form</h1>
+<p>Before you can book a PT we need to know a few things about you and your goals.</p>
+<p>Booking with: @Model.TrainerName</p>
+
+
+<form method="post">
+
+    <input type="hidden" asp-for="TrainerId" />
+
+    <div>
+        <label>Age:</label>
+        <input asp-for="Age" />
+    </div>
+
+    <div>
+        <label>Current Weight:</label>
+        <input asp-for="CurrentWeight" />
+    </div>
+
+    <div>
+        <label>Target Weight:</label>
+        <input asp-for="TargetWeight" />
+    </div>
+
+    <div>
+        <label>Training Experience:</label>
+        <br />
+        <textarea asp-for="Experience" rows="5" cols="50"></textarea>
+    </div>
+
+    <button type="submit">Send Request</button>
+
+</form>
