@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PTMS.Data;
-using PTMS.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PTMS.Areas.Identity.Pages.Account
@@ -53,10 +51,6 @@ namespace PTMS.Areas.Identity.Pages.Account
 
             [Required]
             public string Role { get; set; }
-
-            public string FitnessGoal { get; set; }
-            public string TrainerName { get; set; }
-            public string Speciality { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -85,29 +79,7 @@ namespace PTMS.Areas.Identity.Pages.Account
 
                 await _userManager.AddToRoleAsync(user, Input.Role);
 
-           
-                if (Input.Role == "Client")
-                {
-                    _context.Clients.Add(new Client
-                    {
-                        UserId = user.Id,
-                        FitnessGoal = Input.FitnessGoal ?? ""
-                    });
-                }
-
-               
-                if (Input.Role == "PT")
-                {
-                    _context.Trainers.Add(new Trainer
-                    {
-                        UserId = user.Id,
-                        Name = Input.TrainerName ?? "",
-                        Speciality = Input.Speciality ?? ""
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-
+                
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return LocalRedirect(returnUrl);

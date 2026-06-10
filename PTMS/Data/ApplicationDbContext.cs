@@ -21,34 +21,16 @@ namespace PTMS.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Session>().HasData(
-                new Session
-                {
-                    Id = 1,
-                    ClientId = 0,
-                    TrainerId = 1,
-                    SessionDate = new DateTime(2026, 6, 12, 10, 0, 0),
-                    Price = 25,
-                    Description = "Strength training",
-                    Status = "Available"
-                },
-                new Session
-                {
-                    Id = 2,
-                    ClientId = 0,
-                    TrainerId = 2,
-                    SessionDate = new DateTime(2026, 6, 13, 14, 0, 0),
-                    Price = 30,
-                    Description = "Cardio session",
-                    Status = "Available"
-                }
-            );
-
+            
             foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys()))
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.NoAction;
             }
+
+            modelBuilder.Entity<Session>()
+                .Property(x => x.Price)
+                .HasPrecision(18, 2);
         }
     }
 }
