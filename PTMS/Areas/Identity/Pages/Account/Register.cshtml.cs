@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PTMS.Data;
+using PTMS.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PTMS.Areas.Identity.Pages.Account
@@ -12,15 +15,18 @@ namespace PTMS.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -37,16 +43,20 @@ namespace PTMS.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
+            [Required]
             [DataType(DataType.Password)]
             [Compare("Password")]
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string Role { get; set; }   
+            public string Role { get; set; }
+
+            public string FitnessGoal { get; set; }
+            public string TrainerName { get; set; }
+            public string Speciality { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -58,37 +68,54 @@ namespace PTMS.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (!ModelState.IsValid)
+                return Page();
 
-            if (ModelState.IsValid)
+            var user = new IdentityUser
             {
+                UserName = Input.Email,
+                Email = Input.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, Input.Password);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User created.");
+
+                await _userManager.AddToRoleAsync(user, Input.Role);
+
+           
+                if (Input.Role == "Client")
+                {
+                    _context.Clients.Add(new Client
+                    {
+                        UserId = user.Id,
+                        FitnessGoal = Input.FitnessGoal ?? ""
+                    });
+                }
+
                
-                var user = new IdentityUser
+                if (Input.Role == "PT")
                 {
-                    UserName = Input.Email,
-                    Email = Input.Email
-                };
-
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account.");
-
-                    
-                    await _userManager.AddToRoleAsync(user, Input.Role);
-
-                    
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return LocalRedirect(returnUrl);
+                    _context.Trainers.Add(new Trainer
+                    {
+                        UserId = user.Id,
+                        Name = Input.TrainerName ?? "",
+                        Speciality = Input.Speciality ?? ""
+                    });
                 }
 
-                
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                await _context.SaveChangesAsync();
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                return LocalRedirect(returnUrl);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
             return Page();
