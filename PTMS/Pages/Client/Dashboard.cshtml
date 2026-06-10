@@ -4,3 +4,52 @@
 
 <h1>Client Dashboard</h1>
 <h3>Book Your Personal Trainer!</h3>
+<h2>Pricing plans</h2>
+
+
+<button> Monthly</button>
+<button> Yearly</button>
+
+
+
+<div class="plan">
+    <h2>PT. John</h2>
+    <h3>£99</h3>
+    <ul>
+        <li><strong>Strength & Conditioning PT</strong></li>
+        <li><strong>Experience:</strong> 8+ years</li>
+        <li><strong>Expertise:</strong> Strength, training muscle buildind and athletic performance</li>
+        <li><strong>Availability:</strong> Weekdays and weekends</li>
+    </ul>
+    <a asp-page="/Client/Book" asp-route-trainerId="1">
+        <button>Book Now</button>
+    </a>
+</div>
+
+<div class="plan">
+    <h2>PT. Sally</h2>
+    <h3>£99</h3>
+    <ul>
+        <li><strong>Weight Loss Specialist</strong></li>
+        <li><strong>Experience:</strong> 5+ years</li>
+        <li><strong>Expertise:</strong>  Fat loss, nutrition support and habit coaching</li>
+        <li><strong>Availability:</strong> Flexible morning and evening sessions</li>
+    </ul>
+    <a asp-page="/Client/Book" asp-route-trainerId="2">
+        <button>Book Now</button>
+    </a>
+</div>
+
+<div class="plan">
+    <h2>PT. Jake</h2>
+    <h3>£99</h3>
+    <ul>
+        <li><strong>Sports Performance</strong></li>
+        <li><strong>Experience:</strong> 10+ years</li>
+        <li><strong>Expertise:</strong> Speed, agility, conditioning and sports-specific training</li>
+        <li><strong>Availability:</strong> Appointment based scheduling</li>
+    </ul>
+    <a asp-page="/Client/Book" asp-route-trainerId="3">
+        <button>Book Now</button>
+    </a>
+</div>
