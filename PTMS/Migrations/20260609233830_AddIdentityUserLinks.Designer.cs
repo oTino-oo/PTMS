@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PTMS.Data;
 
@@ -11,9 +12,11 @@ using PTMS.Data;
 namespace PTMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260609233830_AddIdentityUserLinks")]
+    partial class AddIdentityUserLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,18 +316,8 @@ namespace PTMS.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime>("SessionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TrainerId")
                         .HasColumnType("int");
@@ -332,28 +325,6 @@ namespace PTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sessions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClientId = 0,
-                            Description = "Strength training",
-                            Price = 25m,
-                            SessionDate = new DateTime(2026, 6, 12, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Available",
-                            TrainerId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClientId = 0,
-                            Description = "Cardio session",
-                            Price = 30m,
-                            SessionDate = new DateTime(2026, 6, 13, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Available",
-                            TrainerId = 2
-                        });
                 });
 
             modelBuilder.Entity("PTMS.Models.Trainer", b =>
