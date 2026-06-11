@@ -10,7 +10,7 @@ namespace PTMS.Data
             : base(options)
         {
         }
-
+        public DbSet<Booking> Bookings { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Session> Sessions { get; set; }

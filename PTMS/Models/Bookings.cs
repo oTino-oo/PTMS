@@ -1,0 +1,22 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace PTMS.Models
+{
+    public class Booking
+    {
+        public int Id { get; set; }
+
+        public int TrainerId { get; set; }
+
+        public int Age { get; set; }
+
+        public double CurrentWeight { get; set; }
+
+        public double TargetWeight { get; set; }
+
+        public string Experience { get; set; } = "";
+
+        public string Status { get; set; } = "Pending";
+    }
+}
