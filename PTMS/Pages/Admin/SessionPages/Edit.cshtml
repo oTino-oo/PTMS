@@ -1,0 +1,63 @@
+@page
+@model PTMS.Pages.Admin.SessionPages.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Session</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Session.Id" />
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Session.ClientId" class="control-label"></label>
+                <input asp-for="Session.ClientId" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Session.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Session.TrainerId" class="control-label"></label>
+                <input asp-for="Session.TrainerId" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Session.TrainerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Session.SessionDate" class="control-label"></label>
+                <input asp-for="Session.SessionDate" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Session.SessionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Session.Price" class="control-label"></label>
+                <input asp-for="Session.Price" class="form-control" />
+                <span asp-validation-for="Session.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Session.Description" class="control-label"></label>
+                <input asp-for="Session.Description" class="form-control" />
+                <span asp-validation-for="Session.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Session.Status" class="control-label"></label>
+                <input asp-for="Session.Status" class="form-control" />
+                <span asp-validation-for="Session.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

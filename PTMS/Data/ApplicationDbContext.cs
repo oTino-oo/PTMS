@@ -6,6 +6,7 @@ namespace PTMS.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<PTMS.Models.User> User { get; set; } = default!;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
