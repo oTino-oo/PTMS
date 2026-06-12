@@ -1,6 +1,49 @@
 ﻿@page
-@model PTMS.Pages.Client.DashboardModel
-@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Client")]
+@model PTMS.Pages.Admin.DashboardModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
 
-<h1>Client Dashboard</h1>
-<p>Welcome Client!</p>
+<h1 class="mb-4">Admin Dashboard</h1>
+
+<div class="container">
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <a asp-page="/Admin/Clients/Index"
+               class="text-decoration-none">
+                <div class="card shadow-sm border-0 h-100 admin-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Manage Clients</h5>
+                        <p class="card-text text-muted">Create, edit, and delete clients</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-page="/Admin/Trainers/Index"
+               class="text-decoration-none">
+                <div class="card shadow-sm border-0 h-100 admin-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Manage Trainers</h5>
+                        <p class="card-text text-muted">Create, edit, and delete trainers</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-page="/Admin/Sessions/Index"
+               class="text-decoration-none">
+                <div class="card shadow-sm border-0 h-100 admin-card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Manage Sessions</h5>
+                        <p class="card-text text-muted">Create, edit, and delete sessions</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
