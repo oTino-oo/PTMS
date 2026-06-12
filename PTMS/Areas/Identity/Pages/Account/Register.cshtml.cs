@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PTMS.Data;
+using PTMS.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PTMS.Areas.Identity.Pages.Account
@@ -77,9 +78,32 @@ namespace PTMS.Areas.Identity.Pages.Account
             {
                 _logger.LogInformation("User created.");
 
+               
                 await _userManager.AddToRoleAsync(user, Input.Role);
 
-                
+          
+
+                if (Input.Role == "Client")
+                {
+                    _context.Clients.Add(new Client
+                    {
+                        UserId = user.Id,
+                        FitnessGoal = ""
+                    });
+                }
+
+                if (Input.Role == "PT")
+                {
+                    _context.Trainers.Add(new Trainer
+                    {
+                        UserId = user.Id,
+                        Name = Input.Email,
+                        Speciality = ""
+                    });
+                }
+
+                await _context.SaveChangesAsync();
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return LocalRedirect(returnUrl);
