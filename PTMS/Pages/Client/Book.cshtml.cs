@@ -1,13 +1,21 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using PTMS.Data;
+using PTMS.Models;
 
 namespace PTMS.Pages.Client
 {
     [Authorize(Roles = "Client")]
     public class BookModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+
+        public BookModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         public int TrainerId { get; set; }
 
@@ -21,9 +29,9 @@ namespace PTMS.Pages.Client
         public double TargetWeight { get; set; }
 
         [BindProperty]
-        public string Experience { get; set; } = string.Empty;
+        public string Experience { get; set; } = "";
 
-        public string TrainerName { get; set; } = string.Empty;
+        public string TrainerName { get; set; } = "";
 
         public void OnGet(int trainerId)
         {
@@ -34,15 +42,12 @@ namespace PTMS.Pages.Client
                 case 1:
                     TrainerName = "PT John";
                     break;
-
                 case 2:
                     TrainerName = "PT Sally";
                     break;
-
                 case 3:
                     TrainerName = "PT Jake";
                     break;
-
                 default:
                     TrainerName = "Unknown Trainer";
                     break;
@@ -51,7 +56,18 @@ namespace PTMS.Pages.Client
 
         public IActionResult OnPost()
         {
-            // Database code will go here later
+            var booking = new Booking
+            {
+                TrainerId = TrainerId,
+                Age = Age,
+                CurrentWeight = CurrentWeight,
+                TargetWeight = TargetWeight,
+                Experience = Experience,
+                Status = "Pending"
+            };
+
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
 
             return RedirectToPage("/Client/Dashboard");
         }
