@@ -1,0 +1,42 @@
+﻿@page
+@model PTMS.Pages.PT.RequestsModel
+
+<h1>Booking Requests</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Trainer ID</th>
+        <th>Age</th>
+        <th>Current Weight</th>
+        <th>Target Weight</th>
+        <th>Experience</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var booking in Model.Bookings)
+    {
+        <tr>
+            <td>@booking.Id</td>
+            <td>@booking.TrainerId</td>
+            <td>@booking.Age</td>
+            <td>@booking.CurrentWeight</td>
+            <td>@booking.TargetWeight</td>
+            <td>@booking.Experience</td>
+            <td>@booking.Status</td>
+
+            <td>
+                <form method="post" asp-page-handler="Accept" style="display:inline;">
+                    <input type="hidden" name="id" value="@booking.Id" />
+                    <button type="submit">Accept</button>
+                </form>
+
+                <form method="post" asp-page-handler="Reject" style="display:inline;">
+                    <input type="hidden" name="id" value="@booking.Id" />
+                    <button type="submit">Reject</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
