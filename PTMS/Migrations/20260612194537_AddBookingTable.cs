@@ -20,12 +20,6 @@ namespace PTMS.Migrations
                 table: "Clients",
                 newName: "UserId");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
-                table: "Sessions",
-                type: "nvarchar(max)",
-                nullable: true);
-
             migrationBuilder.AddColumn<decimal>(
                 name: "Price",
                 table: "Sessions",
@@ -66,10 +60,6 @@ namespace PTMS.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Bookings");
-
-            migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Sessions");
 
             migrationBuilder.DropColumn(
                 name: "Price",
