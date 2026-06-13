@@ -17,6 +17,9 @@ namespace PTMS.Pages.Client
         }
 
         [BindProperty]
+        public string PlanType { get; set; } = "Monthly";
+
+        [BindProperty]
         public int TrainerId { get; set; }
 
         [BindProperty]
@@ -33,9 +36,10 @@ namespace PTMS.Pages.Client
 
         public string TrainerName { get; set; } = "";
 
-        public void OnGet(int trainerId)
+        public void OnGet(int trainerId, string planType)
         {
             TrainerId = trainerId;
+            PlanType = planType;
 
             switch (trainerId)
             {
@@ -65,6 +69,9 @@ namespace PTMS.Pages.Client
                 CurrentWeight = CurrentWeight,
                 TargetWeight = TargetWeight,
                 Experience = Experience,
+
+                PlanType = PlanType,
+
                 Status = "Pending"
             };
 

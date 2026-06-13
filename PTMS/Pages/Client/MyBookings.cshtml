@@ -6,6 +6,7 @@
 <table border="1">
     <tr>
         <th>Trainer</th>
+        <th>Plan</th>
         <th>Age</th>
         <th>Current Weight</th>
         <th>Target Weight</th>
@@ -21,11 +22,16 @@
                             b.TrainerId == 2 ? "PT Sally" :
                             b.TrainerId == 3 ? "PT Jake" : "Unknown PT")
         </td>
-        <td>@b.Age</td>
-        <td>@b.CurrentWeight</td>
-        <td>@b.TargetWeight</td>
-        <td>@b.Experience</td>
-        <td>@b.Status</td>
-    </tr>
+
+            <td>
+                @b.PlanType
+            </td>
+
+            <td>@b.Age</td>
+            <td>@b.CurrentWeight</td>
+            <td>@b.TargetWeight</td>
+            <td>@b.Experience</td>
+            <td>@b.Status</td>
+        </tr>
         }
 </table>
