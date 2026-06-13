@@ -1,0 +1,37 @@
+@page
+@model PTMS.Pages.PT.SessionPages.CreateModel
+
+<h1>Create Session</h1>
+
+<form method="post">
+
+    <div class="form-group">
+        <label asp-for="Session.ClientId"></label>
+        <input asp-for="Session.ClientId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Session.SessionDate"></label>
+        <input asp-for="Session.SessionDate" type="datetime-local" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Session.Description"></label>
+        <input asp-for="Session.Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Session.Price"></label>
+        <input asp-for="Session.Price" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Session.Status"></label>
+        <input asp-for="Session.Status" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Create
+    </button>
+
+</form>

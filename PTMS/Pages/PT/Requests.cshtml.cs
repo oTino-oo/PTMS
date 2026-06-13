@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PTMS.Data;
 using PTMS.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PTMS.Pages.PT
 {
@@ -27,11 +25,25 @@ namespace PTMS.Pages.PT
         {
             var booking = _context.Bookings.FirstOrDefault(b => b.Id == id);
 
-            if (booking != null)
+            if (booking == null)
+                return RedirectToPage();
+
+            booking.Status = "Accepted";
+
+            _context.Sessions.Add(new Session
             {
-                booking.Status = "Accepted";
-                _context.SaveChanges();
-            }
+                TrainerId = booking.TrainerId,
+
+                // FIX: string type matches Booking.ClientId
+                ClientId = booking.ClientId,
+
+                SessionDate = DateTime.Now.AddDays(1),
+                Status = "Scheduled",
+                Price = 0,
+                Description = "Created from booking"
+            });
+
+            _context.SaveChanges();
 
             return RedirectToPage();
         }
@@ -40,11 +52,11 @@ namespace PTMS.Pages.PT
         {
             var booking = _context.Bookings.FirstOrDefault(b => b.Id == id);
 
-            if (booking != null)
-            {
-                booking.Status = "Rejected";
-                _context.SaveChanges();
-            }
+            if (booking == null)
+                return RedirectToPage();
+
+            booking.Status = "Rejected";
+            _context.SaveChanges();
 
             return RedirectToPage();
         }

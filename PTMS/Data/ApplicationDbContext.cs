@@ -41,6 +41,11 @@ namespace PTMS.Data
                 .WithMany()
                 .HasForeignKey(b => b.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Trainer>()
+                .HasOne<IdentityUser>()
+                .WithMany()
+                .HasForeignKey(t => t.UserId);
         }
     }
 }

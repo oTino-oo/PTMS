@@ -1,6 +1,5 @@
 ﻿@page
 @model PTMS.Pages.PT.DashboardModel
-
 @attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "PT")]
 
 @{
@@ -9,13 +8,11 @@
 
 <div class="container mt-4">
 
-   
     <div class="mb-4">
         <h2 class="fw-bold">PT Dashboard</h2>
         <p class="text-muted">Welcome Personal Trainer 👋</p>
     </div>
 
-    
     <div class="row g-3 mb-4">
 
         <div class="col-md-6">
@@ -38,14 +35,14 @@
 
     </div>
 
-   
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
 
             <h5 class="mb-3">Quick Actions</h5>
 
             <div class="d-flex gap-2">
-                <a class="btn btn-primary">
+
+                <a class="btn btn-primary" asp-page="/PT/SessionPages/Create">
                     + Add Session
                 </a>
 
@@ -56,36 +53,10 @@
                 <a class="btn btn-outline-secondary">
                     View Schedule
                 </a>
+
             </div>
 
         </div>
-    </div>
-
-   
-    <div class="row">
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Recent Clients</h5>
-                </div>
-                <div class="card-body text-muted">
-                    No data loaded yet.
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Upcoming Sessions</h5>
-                </div>
-                <div class="card-body text-muted">
-                    No sessions scheduled.
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </div>

@@ -1,22 +1,19 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace PTMS.Models
+﻿namespace PTMS.Models
 {
     public class Session
     {
         public int Id { get; set; }
 
-        [Required]
-        public int ClientId { get; set; }
-
-        [Required]
         public int TrainerId { get; set; }
 
-        [Required]
+        public string ClientId { get; set; }   
+
         public DateTime SessionDate { get; set; }
-        public decimal Price { get; set; }
+
         public string? Description { get; set; }
-        public string Status { get; set; } = "Available";
+
+        public decimal Price { get; set; }
+
+        public string Status { get; set; } = "Scheduled";
     }
 }
