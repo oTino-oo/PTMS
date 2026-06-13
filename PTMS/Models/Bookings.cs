@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace PTMS.Models
+﻿namespace PTMS.Models
 {
     public class Booking
     {
         public int Id { get; set; }
+
+        public string ClientId { get; set; } = "";
 
         public int TrainerId { get; set; }
 

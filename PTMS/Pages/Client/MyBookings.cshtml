@@ -1,0 +1,31 @@
+﻿@page
+@model PTMS.Pages.Client.MyBookingsModel
+
+<h1>My Bookings</h1>
+
+<table border="1">
+    <tr>
+        <th>Trainer</th>
+        <th>Age</th>
+        <th>Current Weight</th>
+        <th>Target Weight</th>
+        <th>Experience</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var b in Model.Bookings)
+    {
+        <tr>
+            <td>
+                @(b.TrainerId == 1 ? "PT John" :
+                            b.TrainerId == 2 ? "PT Sally" :
+                            b.TrainerId == 3 ? "PT Jake" : "Unknown PT")
+        </td>
+        <td>@b.Age</td>
+        <td>@b.CurrentWeight</td>
+        <td>@b.TargetWeight</td>
+        <td>@b.Experience</td>
+        <td>@b.Status</td>
+    </tr>
+        }
+</table>

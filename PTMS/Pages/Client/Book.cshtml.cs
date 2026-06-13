@@ -58,6 +58,8 @@ namespace PTMS.Pages.Client
         {
             var booking = new Booking
             {
+                ClientId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "",
+
                 TrainerId = TrainerId,
                 Age = Age,
                 CurrentWeight = CurrentWeight,
