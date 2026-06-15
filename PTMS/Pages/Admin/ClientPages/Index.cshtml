@@ -1,42 +1,128 @@
 @page
 @model PTMS.Pages.Admin.ClientPages.IndexModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Index</h1>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client[0].UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client[0].FitnessGoal)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Client) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.FitnessGoal)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .btn-create {
+        background: #2d6cdf;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-create:hover {
+            background: #1f4fb3;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #2d6cdf;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+        background: #f1f5ff;
+    }
+
+    .actions a {
+        margin-right: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .edit {
+        color: #2d6cdf;
+    }
+
+    .details {
+        color: #6c757d;
+    }
+
+    .delete {
+        color: #dc3545;
+    }
+
+    .actions a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<h1>Clients</h1>
+
+<div class="container">
+
+    <div class="top-bar">
+        <h3>Manage Clients</h3>
+        <a asp-page="Create" class="btn-create">+ Create New</a>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Fitness Goal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Client)
+            {
+                <tr>
+                    <td>@item.UserId</td>
+                    <td>@item.FitnessGoal</td>
+                    <td class="actions">
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="edit">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="details">Details</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="delete">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>

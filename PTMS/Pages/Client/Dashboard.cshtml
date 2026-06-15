@@ -1,57 +1,147 @@
 ﻿@page
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Client")]
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h3, h2 {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .top-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+    }
+
+    .top-buttons a button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #2d6cdf;
+        color: white;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    .top-buttons a button:hover {
+        background: #1f4fb3;
+    }
+
+    .plans-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .plan {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: 0.2s;
+    }
+
+    .plan:hover {
+        transform: translateY(-4px);
+    }
+
+    .plan h2 {
+        margin-top: 0;
+    }
+
+    .plan h3 {
+        color: #2d6cdf;
+    }
+
+    .plan ul {
+        padding-left: 18px;
+    }
+
+    .plan button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        background: #28a745;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
+
+    .plan button:hover {
+        background: #1f7d34;
+    }
+</style>
+
 <h1>Monthly Plans</h1>
 <h3>Book Your Personal Trainer!</h3>
 <h2>Pricing plans</h2>
 
-<a asp-page="/Client/Dashboard"><button>Monthly</button></a>
-<a asp-page="/Client/YearlyPlans"><button>Yearly</button></a>
-
-<br />
-
-<a asp-page="/Client/MyBookings">
-    <button>View My Bookings</button>
-</a>
-
-<div class="plan">
-    <h2>PT. John</h2>
-    <h3>£99</h3>
-    <ul>
-        <li><strong>Strength & Conditioning PT</strong></li>
-        <li><strong>Experience:</strong> 8+ years</li>
-        <li><strong>Expertise:</strong> Strength, training muscle buildind and athletic performance</li>
-        <li><strong>Availability:</strong> Weekdays and weekends</li>
-    </ul>
-    <a asp-page="/Client/Book" asp-route-trainerId="1">
-        <button>Book Now</button>
-    </a>
+<div class="top-buttons">
+    <a asp-page="/Client/Dashboard"><button>Monthly</button></a>
+    <a asp-page="/Client/YearlyPlans"><button>Yearly</button></a>
+    <a asp-page="/Client/MyBookings"><button>View My Bookings</button></a>
 </div>
 
-<div class="plan">
-    <h2>PT. Sally</h2>
-    <h3>£99</h3>
-    <ul>
-        <li><strong>Weight Loss Specialist</strong></li>
-        <li><strong>Experience:</strong> 5+ years</li>
-        <li><strong>Expertise:</strong>  Fat loss, nutrition support and habit coaching</li>
-        <li><strong>Availability:</strong> Flexible morning and evening sessions</li>
-    </ul>
-    <a asp-page="/Client/Book" asp-route-trainerId="2">
-        <button>Book Now</button>
-    </a>
-</div>
+<div class="plans-container">
 
-<div class="plan">
-    <h2>PT. Jake</h2>
-    <h3>£99</h3>
-    <ul>
-        <li><strong>Sports Performance</strong></li>
-        <li><strong>Experience:</strong> 10+ years</li>
-        <li><strong>Expertise:</strong> Speed, agility, conditioning and sports-specific training</li>
-        <li><strong>Availability:</strong> Appointment based scheduling</li>
-    </ul>
-    <a asp-page="/Client/Book" asp-route-trainerId="3">
-        <button>Book Now</button>
-    </a>
+    <div class="plan">
+        <h2>PT. John</h2>
+        <h3>£99</h3>
+        <ul>
+            <li><strong>Strength & Conditioning PT</strong></li>
+            <li><strong>Experience:</strong> 8+ years</li>
+            <li><strong>Expertise:</strong> Strength, muscle building and athletic performance</li>
+            <li><strong>Availability:</strong> Weekdays and weekends</li>
+        </ul>
+        <a asp-page="/Client/Book" asp-route-trainerId="1">
+            <br />
+            <button>Book Now</button>
+        </a>
+    </div>
+
+    <div class="plan">
+        <h2>PT. Sally</h2>
+        <h3>£99</h3>
+        <ul>
+            <li><strong>Weight Loss Specialist</strong></li>
+            <li><strong>Experience:</strong> 5+ years</li>
+            <li><strong>Expertise:</strong> Fat loss, nutrition support and habit coaching</li>
+            <li><strong>Availability:</strong> Flexible morning and evening sessions</li>
+        </ul>
+        <a asp-page="/Client/Book" asp-route-trainerId="2">
+            <button>Book Now</button>
+        </a>
+    </div>
+
+    <div class="plan">
+        <h2>PT. Jake</h2>
+        <h3>£99</h3>
+        <ul>
+            <li><strong>Sports Performance</strong></li>
+            <li><strong>Experience:</strong> 10+ years</li>
+            <li><strong>Expertise:</strong> Speed, agility, conditioning and sports-specific training</li>
+            <li><strong>Availability:</strong> Appointment based scheduling</li>
+        </ul>
+        <a asp-page="/Client/Book" asp-route-trainerId="3">
+            <button>Book Now</button>
+        </a>
+    </div>
+
 </div>

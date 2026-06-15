@@ -1,31 +1,109 @@
 @page
 @model PTMS.Pages.Admin.ClientPages.DetailsModel
 
-@{
-    ViewData["Title"] = "Details";
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Details</h1>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Client.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Client.UserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Client.FitnessGoal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Client.FitnessGoal)
-        </dd>
+    .details-card {
+        max-width: 600px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    dl {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 10px 15px;
+        margin-bottom: 20px;
+    }
+
+    dt {
+        font-weight: bold;
+        color: #333;
+    }
+
+    dd {
+        margin: 0;
+        color: #555;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-edit {
+        background: #2d6cdf;
+        color: white;
+    }
+
+        .btn-edit:hover {
+            background: #1f4fb3;
+        }
+
+    .btn-back {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-back:hover {
+            background: #495057;
+        }
+</style>
+
+<h1>Client Details</h1>
+
+<div class="details-card">
+
+    <div class="subtitle">
+        Full client information
+    </div>
+
+    <dl>
+        <dt>User ID</dt>
+        <dd>@Model.Client.UserId</dd>
+
+        <dt>Fitness Goal</dt>
+        <dd>@Model.Client.FitnessGoal</dd>
     </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Client.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+
+    <div class="actions">
+        <a asp-page="./Edit" asp-route-id="@Model.Client.Id" class="btn btn-edit">
+            Edit
+        </a>
+
+        <a asp-page="./Index" class="btn btn-back">
+            Back
+        </a>
+    </div>
+
 </div>

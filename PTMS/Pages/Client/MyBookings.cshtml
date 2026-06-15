@@ -1,34 +1,117 @@
 ﻿@page
 @model PTMS.Pages.Client.MyBookingsModel
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .table-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #2d6cdf;
+        color: white;
+        font-weight: bold;
+    }
+
+    tr {
+        border-bottom: 1px solid #eee;
+    }
+
+        tr:hover {
+            background: #f1f5ff;
+        }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .approved {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .rejected {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
 <h1>My Bookings</h1>
 
-<table border="1">
-    <tr>
-        <th>Trainer</th>
-        <th>Plan</th>
-        <th>Age</th>
-        <th>Current Weight</th>
-        <th>Target Weight</th>
-        <th>Experience</th>
-        <th>Status</th>
-    </tr>
+<div class="table-container">
 
-    @foreach (var b in Model.Bookings)
-    {
+    <table>
+
         <tr>
-            <td>
-                @(Model.TrainerNames.ContainsKey(b.TrainerId)
-                            ? Model.TrainerNames[b.TrainerId]
-                            : "Unknown PT")
-        </td>
-
-            <td>@b.PlanType</td>
-            <td>@b.Age</td>
-            <td>@b.CurrentWeight</td>
-            <td>@b.TargetWeight</td>
-            <td>@b.Experience</td>
-            <td>@b.Status</td>
+            <th>Trainer</th>
+            <th>Plan</th>
+            <th>Age</th>
+            <th>Current Weight</th>
+            <th>Target Weight</th>
+            <th>Experience</th>
+            <th>Status</th>
         </tr>
-        }
-</table>
+
+        @foreach (var b in Model.Bookings)
+        {
+            <tr>
+                <td>
+                    @(Model.TrainerNames.ContainsKey(b.TrainerId)
+                                    ? Model.TrainerNames[b.TrainerId]
+                                    : "Unknown PT")
+            </td>
+
+                <td>@b.PlanType</td>
+                <td>@b.Age</td>
+                <td>@b.CurrentWeight</td>
+                <td>@b.TargetWeight</td>
+                <td>@b.Experience</td>
+
+                <td>
+                    <span class="status @b.Status.ToLower()">
+                        @b.Status
+                    </span>
+                </td>
+            </tr>
+                }
+
+    </table>
+
+</div>

@@ -1,101 +1,138 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #2d6cdf, #1f4fb3);
+        color: white;
+        padding: 80px 20px;
+        border-radius: 16px;
+        margin-top: 20px;
+    }
 
-    <h2 class="display-4">Personal Training Management</h2>
+        .hero-section p {
+            max-width: 700px;
+            margin: auto;
+        }
 
-    <p>
-        Connect with your personal trainer, access your workout plans,
-        track your progress, and stay motivated throughout your fitness journey.
+    .btn-lg {
+        padding: 12px 20px;
+        border-radius: 10px;
+    }
+
+    .features-section {
+        margin-top: 50px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        height: 100%;
+        transition: 0.2s;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-card h4 {
+            margin-bottom: 10px;
+        }
+</style>
+
+<div class="hero-section text-center">
+
+    <h1 class="display-4 fw-bold">Personal Training Management</h1>
+
+    <p class="lead mt-3">
+        Connect with your trainer, track progress, book sessions, and stay consistent with your fitness goals.
     </p>
-
-    <br>
-
-    <h3>What You Can Do</h3>
-
-    <p>
-        - Access personalised training programmes designed specifically
-        for your goals and fitness level.
-    </p>
-
-    <p>
-        - Monitor your achievements, record results, and see how far
-        you've come over time.
-    </p>
-
-    <p>
-        - Book and view training sessions with your personal trainer
-        in one convenient place.
-    </p>
-
-    <p>
-        - Receive updates and communicate with your trainer whenever
-        you need support.
-    </p>
-
-    <br />
 
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <hr />
+        <div class="mt-4">
 
-        <h4>Your Dashboard</h4>
-
-        @if (User.IsInRole("Admin"))
-        {
-            <p>
-                <a class="btn btn-primary"
-                   asp-page="/Admin/Dashboard">
-                    Go to Admin Dashboard
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-light btn-lg me-2" asp-page="/Admin/Dashboard">
+                    Admin Dashboard
                 </a>
-            </p>
-        }
+            }
 
-        @if (User.IsInRole("PT"))
-        {
-            <p>
-                <a class="btn btn-primary"
-                   asp-page="/PT/Dashboard">
-                    Go to PT Dashboard
+            @if (User.IsInRole("PT"))
+            {
+                <a class="btn btn-light btn-lg me-2" asp-page="/PT/Dashboard">
+                    PT Dashboard
                 </a>
-            </p>
-        }
+            }
 
-        @if (User.IsInRole("Client"))
-        {
-            <p>
-                <a class="btn btn-primary"
-                   asp-page="/Client/Dashboard">
-                    Go to Client Dashboard
+            @if (User.IsInRole("Client"))
+            {
+                <a class="btn btn-light btn-lg" asp-page="/Client/Dashboard">
+                    Client Dashboard
                 </a>
-            </p>
-        }
+            }
+
+        </div>
     }
     else
     {
-        <hr />
-
-        <p>
-            <a class="btn btn-success"
+        <div class="mt-4">
+            <a class="btn btn-outline-light btn-lg me-2"
                asp-area="Identity"
                asp-page="/Account/Login">
                 Login
             </a>
 
-            <a class="btn btn-outline-primary"
+            <a class="btn btn-outline-light btn-lg"
                asp-area="Identity"
                asp-page="/Account/Register">
                 Register
             </a>
-        </p>
+        </div>
     }
 
-    <br />
-
-    <p><strong>GET STARTED</strong></p>
-
 </div>
+
+<section class="features-section container">
+
+    <h2 class="text-center mb-4">What You Can Do</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card text-center">
+                <h4>🏋️ Training Plans</h4>
+                <p>Personalised programmes built for your goals.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card text-center">
+                <h4>📈 Track Progress</h4>
+                <p>Monitor improvements and fitness results easily.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card text-center">
+                <h4>📅 Book Sessions</h4>
+                <p>Simple booking system with your trainer.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card text-center">
+                <h4>💬 Stay Connected</h4>
+                <p>Keep in touch with updates and feedback.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>

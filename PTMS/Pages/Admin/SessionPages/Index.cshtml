@@ -1,66 +1,161 @@
 @page
 @model PTMS.Pages.Admin.SessionPages.IndexModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Index</h1>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].ClientId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].TrainerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].SessionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Session[0].Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Session) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.ClientId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.TrainerId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.SessionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Status)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .btn-create {
+        background: #2d6cdf;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-create:hover {
+            background: #1f4fb3;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #2d6cdf;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+
+    tr:hover {
+        background: #f1f5ff;
+    }
+
+    .actions a {
+        margin-right: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .edit {
+        color: #2d6cdf;
+    }
+
+    .details {
+        color: #6c757d;
+    }
+
+    .delete {
+        color: #dc3545;
+    }
+
+    .actions a:hover {
+        text-decoration: underline;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .confirmed {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+</style>
+
+<h1>Sessions</h1>
+
+<div class="container">
+
+    <div class="top-bar">
+        <h3>Manage Sessions</h3>
+        <a asp-page="Create" class="btn-create">+ Create New</a>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Trainer ID</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Session)
+            {
+                <tr>
+                    <td>@item.ClientId</td>
+                    <td>@item.TrainerId</td>
+                    <td>@item.SessionDate</td>
+                    <td>@item.Price</td>
+                    <td>@item.Description</td>
+
+                    <td>
+                        <span class="badge @(item.Status?.ToLower() == "confirmed" ? "confirmed" : "pending")">
+                            @item.Status
+                        </span>
+                    </td>
+
+                    <td class="actions">
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="edit">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="details">Details</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="delete">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>

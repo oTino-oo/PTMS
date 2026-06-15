@@ -1,37 +1,96 @@
 @page
 @model PTMS.Pages.PT.SessionPages.CreateModel
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .form-card {
+        max-width: 600px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #2d6cdf;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .btn:hover {
+            background: #1f4fb3;
+        }
+</style>
+
 <h1>Create Session</h1>
 
-<form method="post">
+<div class="form-card">
 
-    <div class="form-group">
-        <label asp-for="Session.ClientId"></label>
-        <input asp-for="Session.ClientId" class="form-control" />
-    </div>
+    <form method="post">
 
-    <div class="form-group">
-        <label asp-for="Session.SessionDate"></label>
-        <input asp-for="Session.SessionDate" type="datetime-local" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Session.ClientId"></label>
+            <input asp-for="Session.ClientId" />
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Session.Description"></label>
-        <input asp-for="Session.Description" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Session.SessionDate"></label>
+            <input asp-for="Session.SessionDate" type="datetime-local" />
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Session.Price"></label>
-        <input asp-for="Session.Price" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Session.Description"></label>
+            <input asp-for="Session.Description" />
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Session.Status"></label>
-        <input asp-for="Session.Status" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Session.Price"></label>
+            <input asp-for="Session.Price" />
+        </div>
 
-    <button type="submit" class="btn btn-primary">
-        Create
-    </button>
+        <div class="form-group">
+            <label asp-for="Session.Status"></label>
+            <input asp-for="Session.Status" />
+        </div>
 
-</form>
+        <button type="submit" class="btn">Create</button>
+
+    </form>
+
+</div>

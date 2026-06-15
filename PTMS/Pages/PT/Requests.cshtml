@@ -1,46 +1,153 @@
 ﻿@page
 @model PTMS.Pages.PT.RequestsModel
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .table-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background: #2d6cdf;
+        color: white;
+        font-size: 14px;
+    }
+
+    tr:hover {
+        background: #f1f5ff;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .approved {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .rejected {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .btn {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .btn-accept {
+        background: #28a745;
+        color: white;
+    }
+
+        .btn-accept:hover {
+            background: #1f7d34;
+        }
+
+    .btn-reject {
+        background: #dc3545;
+        color: white;
+    }
+
+        .btn-reject:hover {
+            background: #a71d2a;
+        }
+
+    form {
+        display: inline;
+    }
+</style>
+
 <h1>Booking Requests</h1>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Trainer ID</th>
-        <th>Plan</th>   
-        <th>Age</th>
-        <th>Current Weight</th>
-        <th>Target Weight</th>
-        <th>Experience</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
+<div class="table-container">
 
-    @foreach (var booking in Model.Bookings)
-    {
+    <table>
         <tr>
-            <td>@booking.Id</td>
-            <td>@booking.TrainerId</td>
-
-            <td>@booking.PlanType</td> 
-
-            <td>@booking.Age</td>
-            <td>@booking.CurrentWeight</td>
-            <td>@booking.TargetWeight</td>
-            <td>@booking.Experience</td>
-            <td>@booking.Status</td>
-
-            <td>
-                <form method="post" asp-page-handler="Accept" style="display:inline;">
-                    <input type="hidden" name="id" value="@booking.Id" />
-                    <button type="submit">Accept</button>
-                </form>
-
-                <form method="post" asp-page-handler="Reject" style="display:inline;">
-                    <input type="hidden" name="id" value="@booking.Id" />
-                    <button type="submit">Reject</button>
-                </form>
-            </td>
+            <th>ID</th>
+            <th>Trainer ID</th>
+            <th>Plan</th>
+            <th>Age</th>
+            <th>Current Weight</th>
+            <th>Target Weight</th>
+            <th>Experience</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
-    }
-</table>
+
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+                <td>@booking.Id</td>
+                <td>@booking.TrainerId</td>
+                <td>@booking.PlanType</td>
+                <td>@booking.Age</td>
+                <td>@booking.CurrentWeight</td>
+                <td>@booking.TargetWeight</td>
+                <td>@booking.Experience</td>
+
+                <td>
+                    <span class="status @booking.Status.ToLower()">
+                        @booking.Status
+                    </span>
+                </td>
+
+                <td>
+                    <form method="post" asp-page-handler="Accept">
+                        <input type="hidden" name="id" value="@booking.Id" />
+                        <button type="submit" class="btn btn-accept">Accept</button>
+                    </form>
+
+                    <form method="post" asp-page-handler="Reject">
+                        <input type="hidden" name="id" value="@booking.Id" />
+                        <button type="submit" class="btn btn-reject">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>

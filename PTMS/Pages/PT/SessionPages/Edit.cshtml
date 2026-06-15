@@ -1,63 +1,144 @@
 @page
 @model PTMS.Pages.PT.SessionPages.EditModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Edit</h1>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<h4>Session</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Session.Id" />
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="Session.ClientId" class="control-label"></label>
-                <input asp-for="Session.ClientId" class="form-control" aria-required="true"/>
-                <span asp-validation-for="Session.ClientId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="Session.TrainerId" class="control-label"></label>
-                <input asp-for="Session.TrainerId" class="form-control" aria-required="true"/>
-                <span asp-validation-for="Session.TrainerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <span class="text-danger">*</span>
-                <label asp-for="Session.SessionDate" class="control-label"></label>
-                <input asp-for="Session.SessionDate" class="form-control" aria-required="true"/>
-                <span asp-validation-for="Session.SessionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Session.Price" class="control-label"></label>
-                <input asp-for="Session.Price" class="form-control" />
-                <span asp-validation-for="Session.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Session.Description" class="control-label"></label>
-                <input asp-for="Session.Description" class="form-control" />
-                <span asp-validation-for="Session.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Session.Status" class="control-label"></label>
-                <input asp-for="Session.Status" class="form-control" />
-                <span asp-validation-for="Session.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    .edit-card {
+        max-width: 650px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+
+    .required {
+        color: red;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #2d6cdf;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-top: 10px;
+    }
+
+        .btn:hover {
+            background: #1f4fb3;
+        }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #6c757d;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    .error {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+
+<h1>Edit Session</h1>
+
+<div class="edit-card">
+
+    <form method="post">
+
+        <div asp-validation-summary="ModelOnly" class="error"></div>
+
+        <input type="hidden" asp-for="Session.Id" />
+
+        <div class="form-group">
+            <label><span class="required">*</span>Client ID</label>
+            <input asp-for="Session.ClientId" />
+            <span asp-validation-for="Session.ClientId" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label><span class="required">*</span>Trainer ID</label>
+            <input asp-for="Session.TrainerId" />
+            <span asp-validation-for="Session.TrainerId" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label><span class="required">*</span>Session Date</label>
+            <input asp-for="Session.SessionDate" />
+            <span asp-validation-for="Session.SessionDate" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input asp-for="Session.Price" />
+            <span asp-validation-for="Session.Price" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <input asp-for="Session.Description" />
+            <span asp-validation-for="Session.Description" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <input asp-for="Session.Status" />
+            <span asp-validation-for="Session.Status" class="error"></span>
+        </div>
+
+        <button type="submit" class="btn">Save Changes</button>
+
+    </form>
+
+    <a asp-page="./Index" class="back-link">Back to List</a>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

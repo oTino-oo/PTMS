@@ -1,55 +1,121 @@
 @page
 @model PTMS.Pages.Admin.SessionPages.DetailsModel
 
-@{
-    ViewData["Title"] = "Details";
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Details</h1>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<div>
-    <h4>Session</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.ClientId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.ClientId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.TrainerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.TrainerId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.SessionDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.SessionDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Session.Status)
-        </dd>
+    .details-card {
+        max-width: 650px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    dl {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 10px 15px;
+        margin-bottom: 20px;
+    }
+
+    dt {
+        font-weight: bold;
+        color: #333;
+    }
+
+    dd {
+        margin: 0;
+        color: #555;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 10px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-edit {
+        background: #2d6cdf;
+        color: white;
+    }
+
+        .btn-edit:hover {
+            background: #1f4fb3;
+        }
+
+    .btn-back {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-back:hover {
+            background: #495057;
+        }
+</style>
+
+<h1>Session Details</h1>
+
+<div class="details-card">
+
+    <div class="subtitle">
+        Full session information
+    </div>
+
+    <dl>
+        <dt>Client ID</dt>
+        <dd>@Model.Session.ClientId</dd>
+
+        <dt>Trainer ID</dt>
+        <dd>@Model.Session.TrainerId</dd>
+
+        <dt>Date</dt>
+        <dd>@Model.Session.SessionDate</dd>
+
+        <dt>Price</dt>
+        <dd>@Model.Session.Price</dd>
+
+        <dt>Description</dt>
+        <dd>@Model.Session.Description</dd>
+
+        <dt>Status</dt>
+        <dd>@Model.Session.Status</dd>
     </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Session.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+
+    <div class="actions">
+        <a asp-page="./Edit" asp-route-id="@Model.Session.Id" class="btn btn-edit">
+            Edit
+        </a>
+
+        <a asp-page="./Index" class="btn btn-back">
+            Back
+        </a>
+    </div>
+
 </div>
