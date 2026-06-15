@@ -12,8 +12,8 @@ using PTMS.Data;
 namespace PTMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260613105013_AddPlanTypeToBooking")]
-    partial class AddPlanTypeToBooking
+    [Migration("20260615155743_FixBookingExperienceNullable")]
+    partial class FixBookingExperienceNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -356,8 +356,9 @@ namespace PTMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -399,9 +400,11 @@ namespace PTMS.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Trainers");
                 });
@@ -523,6 +526,15 @@ namespace PTMS.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Trainer");
+                });
+
+            modelBuilder.Entity("PTMS.Models.Trainer", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

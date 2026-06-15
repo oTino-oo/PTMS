@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using PTMS.Data;
 using PTMS.Models;
 using System.Linq;
-using System.Collections.Generic;
-using System.Security.Claims;
-using PTMS.Models;
-using PTMS.Data;
 
 namespace PTMS.Pages.Client
 {
@@ -22,7 +18,7 @@ namespace PTMS.Pages.Client
 
         public List<Booking> Bookings { get; set; } = new();
 
-        public List<Trainer> Trainers { get; set; } = new();
+        public Dictionary<int, string> TrainerNames { get; set; } = new();
 
         public void OnGet()
         {
@@ -32,7 +28,8 @@ namespace PTMS.Pages.Client
                 .Where(b => b.ClientId == userId)
                 .ToList();
 
-            Trainers = _context.Trainers.ToList();
+            TrainerNames = _context.Trainers
+                .ToDictionary(t => t.Id, t => t.Name);
         }
     }
 }

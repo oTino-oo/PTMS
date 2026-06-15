@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PTMS.Data;
 using PTMS.Models;
+using System.Security.Claims;
 
 namespace PTMS.Pages.Client
 {
@@ -17,9 +19,6 @@ namespace PTMS.Pages.Client
         }
 
         [BindProperty]
-        public string PlanType { get; set; } = "Monthly";
-
-        [BindProperty]
         public int TrainerId { get; set; }
 
         [BindProperty]
@@ -32,53 +31,54 @@ namespace PTMS.Pages.Client
         public double TargetWeight { get; set; }
 
         [BindProperty]
-        public string Experience { get; set; } = "";
+        public string? Experience { get; set; }
+
+        public string PlanType { get; set; } = "Monthly";
 
         public string TrainerName { get; set; } = "";
 
         public void OnGet(int trainerId, string planType)
         {
             TrainerId = trainerId;
-            PlanType = planType;
+            PlanType = planType ?? "Monthly";
 
-            switch (trainerId)
+            TrainerName = trainerId switch
             {
-                case 1:
-                    TrainerName = "PT John";
-                    break;
-                case 2:
-                    TrainerName = "PT Sally";
-                    break;
-                case 3:
-                    TrainerName = "PT Jake";
-                    break;
-                default:
-                    TrainerName = "Unknown Trainer";
-                    break;
-            }
+                1 => "PT John",
+                2 => "PT Sally",
+                3 => "PT Jake",
+                _ => "Unknown Trainer"
+            };
         }
 
         public IActionResult OnPost()
         {
+            ModelState.Remove("PlanType");
+
+            if (!ModelState.IsValid)
+                return Page();
+
+            var clientId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(clientId))
+                return Content("User not logged in");
+
             var booking = new Booking
             {
-                ClientId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "",
-
+                ClientId = clientId,
                 TrainerId = TrainerId,
                 Age = Age,
                 CurrentWeight = CurrentWeight,
                 TargetWeight = TargetWeight,
-                Experience = Experience,
-
-                PlanType = PlanType,
-
+                Experience = Experience ?? "",
+                PlanType = "Monthly",
                 Status = "Pending"
             };
 
             _context.Bookings.Add(booking);
             _context.SaveChanges();
 
-            return RedirectToPage("/Client/Dashboard");
+            return Content("BOOKING SUCCESS");
         }
     }
 }

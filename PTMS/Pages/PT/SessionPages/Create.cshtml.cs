@@ -27,14 +27,16 @@ namespace PTMS.Pages.PT.SessionPages
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Page();
 
-            var trainer = _context.Trainers.FirstOrDefault(t => t.UserId == userId);
+            var trainer = _context.Trainers.FirstOrDefault(t => t.UserId == user.Id);
 
             if (trainer == null)
             {
@@ -45,7 +47,7 @@ namespace PTMS.Pages.PT.SessionPages
             Session.TrainerId = trainer.Id;
 
             _context.Sessions.Add(Session);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PTMS.Data;
-using System.Linq;
+using PTMS.Services;
 
 namespace PTMS.Pages.PT
 {
@@ -11,30 +12,38 @@ namespace PTMS.Pages.PT
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly TrainerService _trainerService;
 
-        public DashboardModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public DashboardModel(
+            ApplicationDbContext context,
+            UserManager<IdentityUser> userManager,
+            TrainerService trainerService)
         {
             _context = context;
             _userManager = userManager;
+            _trainerService = trainerService;
         }
 
         public int TotalClients { get; set; }
         public int UpcomingSessions { get; set; }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return;
 
-            var trainer = _context.Trainers.FirstOrDefault(t => t.UserId == userId);
+            await _trainerService.EnsureTrainerExistsAsync(user);
 
-            if (trainer == null)
-                return;
+            var trainer = await _context.Trainers
+                .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
-            TotalClients = _context.Bookings
-                .Count(b => b.TrainerId == trainer.Id && b.Status == "Accepted");
+            if (trainer == null) return;
 
-            UpcomingSessions = _context.Sessions
-                .Count(s => s.TrainerId == trainer.Id && s.SessionDate > System.DateTime.Now);
+            TotalClients = await _context.Bookings
+                .CountAsync(b => b.TrainerId == trainer.Id && b.Status == "Accepted");
+
+            UpcomingSessions = await _context.Sessions
+                .CountAsync(s => s.TrainerId == trainer.Id && s.SessionDate > DateTime.Now);
         }
     }
 }

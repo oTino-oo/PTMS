@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string ClientId { get; set; } = "";
+        public string ClientId { get; set; } = string.Empty;
 
         public int TrainerId { get; set; }
 
@@ -14,9 +14,10 @@
 
         public double TargetWeight { get; set; }
 
-        public string Experience { get; set; } = "";
+        public string? Experience { get; set; }
 
         public string Status { get; set; } = "Pending";
+
         public string PlanType { get; set; } = "Monthly";
     }
 }

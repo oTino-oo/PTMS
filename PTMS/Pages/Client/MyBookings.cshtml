@@ -18,15 +18,12 @@
     {
         <tr>
             <td>
-                @(b.TrainerId == 1 ? "PT John" :
-                            b.TrainerId == 2 ? "PT Sally" :
-                            b.TrainerId == 3 ? "PT Jake" : "Unknown PT")
+                @(Model.TrainerNames.ContainsKey(b.TrainerId)
+                            ? Model.TrainerNames[b.TrainerId]
+                            : "Unknown PT")
         </td>
 
-            <td>
-                @b.PlanType
-            </td>
-
+            <td>@b.PlanType</td>
             <td>@b.Age</td>
             <td>@b.CurrentWeight</td>
             <td>@b.TargetWeight</td>
