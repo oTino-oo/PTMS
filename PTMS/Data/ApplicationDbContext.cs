@@ -20,7 +20,7 @@ namespace PTMS.Data
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Availability> Availability { get; set; }
         public DbSet<Progress> Progress { get; set; }
-
+        public DbSet<UserApproval> UserApprovals { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

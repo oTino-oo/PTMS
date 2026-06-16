@@ -45,6 +45,7 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
     string[] roles = { "Admin", "PT", "Client" };
 
@@ -55,5 +56,24 @@ using (var scope = app.Services.CreateScope())
             roleManager.CreateAsync(new IdentityRole(role)).GetAwaiter().GetResult();
         }
     }
+
+    string adminEmail = "admin@ptms.com";
+    string adminPassword = "Admin123!";
+
+    var adminUser = userManager.FindByEmailAsync(adminEmail).GetAwaiter().GetResult();
+
+    if (adminUser == null)
+    {
+        adminUser = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        userManager.CreateAsync(adminUser, adminPassword).GetAwaiter().GetResult();
+        userManager.AddToRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
+    }
 }
 app.Run();
+

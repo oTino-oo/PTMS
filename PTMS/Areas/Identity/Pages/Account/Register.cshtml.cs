@@ -74,47 +74,51 @@ namespace PTMS.Areas.Identity.Pages.Account
 
             var result = await _userManager.CreateAsync(user, Input.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                _logger.LogInformation("User created.");
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
 
-               
-                await _userManager.AddToRoleAsync(user, Input.Role);
-
-          
-
-                if (Input.Role == "Client")
-                {
-                    _context.Clients.Add(new Client
-                    {
-                        UserId = user.Id,
-                        FitnessGoal = ""
-                    });
-                }
-
-                if (Input.Role == "PT")
-                {
-                    _context.Trainers.Add(new Trainer
-                    {
-                        UserId = user.Id,
-                        Name = Input.Email,
-                        Speciality = ""
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                return LocalRedirect(returnUrl);
+                return Page();
             }
 
-            foreach (var error in result.Errors)
+            _logger.LogInformation("User created.");
+
+            await _userManager.AddToRoleAsync(user, Input.Role);
+
+            // Create related profile
+            if (Input.Role == "Client")
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                _context.Clients.Add(new Client
+                {
+                    UserId = user.Id,
+                    FitnessGoal = ""
+                });
             }
 
-            return Page();
+            if (Input.Role == "PT")
+            {
+                _context.Trainers.Add(new Trainer
+                {
+                    UserId = user.Id,
+                    Name = Input.Email,
+                    Speciality = ""
+                });
+            }
+
+         
+            _context.UserApprovals.Add(new UserApproval
+            {
+                UserId = user.Id,
+                Role = Input.Role,
+                IsApproved = false
+            });
+
+            await _context.SaveChangesAsync();
+
+            await _signInManager.SignOutAsync();
+
+            return RedirectToPage("/Account/PendingApproval");
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿@page
+@model PTMS.Pages.Admin.UsersModel
+
+<h2>Pending Users</h2>
+
+@if (Model.PendingUsers == null || !Model.PendingUsers.Any())
+{
+    <p>No pending users.</p>
+}
+else
+{
+    @foreach (var u in Model.PendingUsers)
+    {
+        <div style="margin-bottom:10px;">
+            <p>@u.UserId - @u.Role</p>
+
+            <form method="post" asp-page-handler="Approve">
+                <input type="hidden" name="UserId" value="@u.UserId" />
+                <button type="submit">Approve</button>
+            </form>
+
+            <form method="post" asp-page-handler="Reject">
+                <input type="hidden" name="UserId" value="@u.UserId" />
+                <button type="submit">Reject</button>
+            </form>
+        </div>
+    }
+}
