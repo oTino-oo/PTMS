@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PTMS.Data;
 using PTMS.Models;
 
@@ -22,9 +23,11 @@ namespace PTMS.Pages.PT.SessionPages
         [BindProperty]
         public Session Session { get; set; } = new();
 
-        public IActionResult OnGet()
+        public List<IdentityUser> Clients { get; set; } = new();
+
+        public async Task OnGetAsync()
         {
-            return Page();
+            Clients = (await _userManager.GetUsersInRoleAsync("Client")).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -36,7 +39,8 @@ namespace PTMS.Pages.PT.SessionPages
             if (user == null)
                 return Page();
 
-            var trainer = _context.Trainers.FirstOrDefault(t => t.UserId == user.Id);
+            var trainer = await _context.Trainers
+                .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
             if (trainer == null)
             {
@@ -45,11 +49,13 @@ namespace PTMS.Pages.PT.SessionPages
             }
 
             Session.TrainerId = trainer.Id;
+            Session.Status = "Scheduled";
+            Session.Completed = false;
 
             _context.Sessions.Add(Session);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/PT/Dashboard");
         }
     }
 }

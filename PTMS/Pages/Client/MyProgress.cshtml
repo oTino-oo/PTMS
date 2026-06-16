@@ -1,0 +1,28 @@
+﻿@page
+@model PTMS.Pages.Client.MyProgressModel
+
+@foreach (var s in Model.Sessions)
+{
+    <div style="padding:10px; border:1px solid #ddd; margin-bottom:10px;">
+        <h4>@s.Description</h4>
+        <p>Target: @s.TargetValue</p>
+        <p>Status: @s.Status</p>
+
+        @if (!s.Completed)
+        {
+            <form method="post" asp-page-handler="Submit">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="sessionId" value="@s.Id" />
+
+                <input type="number" step="0.1" name="actualValue" placeholder="Enter result" />
+
+                <button type="submit">Submit</button>
+            </form>
+        }
+        else
+        {
+            <p><b>Completed:</b> @s.ActualValue</p>
+        }
+    </div>
+}

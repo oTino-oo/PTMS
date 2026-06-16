@@ -1,0 +1,13 @@
+﻿@page
+@model PTMS.Pages.PT.ScheduleModel
+
+<h2>My Schedule</h2>
+
+@foreach (var s in Model.Session)
+{
+    <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px;">
+        <p><b>@s.Description</b></p>
+        <p>Date: @s.SessionDate</p>
+        <p>Status: @s.Status</p>
+    </div>
+}

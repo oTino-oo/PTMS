@@ -5,13 +5,10 @@
     body {
         font-family: Arial, sans-serif;
         background: #f4f6f9;
-        margin: 0;
-        padding: 0;
     }
 
     h1 {
         text-align: center;
-        margin-top: 20px;
     }
 
     .form-card {
@@ -20,7 +17,6 @@
         background: white;
         padding: 25px;
         border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
     .form-group {
@@ -28,34 +24,26 @@
     }
 
     label {
+        font-weight: bold;
         display: block;
         margin-bottom: 6px;
-        font-weight: bold;
     }
 
-    input {
+    input, select {
         width: 100%;
         padding: 10px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 14px;
     }
 
     .btn {
         width: 100%;
         padding: 12px;
-        border: none;
-        border-radius: 8px;
         background: #2d6cdf;
         color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
+        border: none;
+        border-radius: 8px;
     }
-
-        .btn:hover {
-            background: #1f4fb3;
-        }
 </style>
 
 <h1>Create Session</h1>
@@ -65,8 +53,14 @@
     <form method="post">
 
         <div class="form-group">
-            <label asp-for="Session.ClientId"></label>
-            <input asp-for="Session.ClientId" />
+            <label>Client</label>
+            <select asp-for="Session.ClientId">
+                <option value="">-- Select Client --</option>
+                @foreach (var c in Model.Clients)
+                {
+                    <option value="@c.Id">@c.UserName</option>
+                }
+            </select>
         </div>
 
         <div class="form-group">
@@ -85,8 +79,8 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Session.Status"></label>
-            <input asp-for="Session.Status" />
+            <label asp-for="Session.TargetValue"></label>
+            <input asp-for="Session.TargetValue" type="number" step="0.1" />
         </div>
 
         <button type="submit" class="btn">Create</button>

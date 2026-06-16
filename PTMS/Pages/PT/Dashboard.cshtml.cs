@@ -22,10 +22,19 @@ namespace PTMS.Pages.PT
             _context = context;
             _userManager = userManager;
             _trainerService = trainerService;
+            Input = new InputModel();
         }
 
         public int TotalClients { get; set; }
         public int UpcomingSessions { get; set; }
+
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            public int TrainerId { get; set; }
+            public string Status { get; set; }
+        }
 
         public async Task OnGetAsync()
         {
@@ -35,15 +44,19 @@ namespace PTMS.Pages.PT
             await _trainerService.EnsureTrainerExistsAsync(user);
 
             var trainer = await _context.Trainers
-                .FirstOrDefaultAsync(t => t.UserId == user.Id);
+                        .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
-            if (trainer == null) return;
+            if (trainer != null)
+            {
+                Input.TrainerId = trainer.Id;
+                Input.Status = "Scheduled";
 
-            TotalClients = await _context.Bookings
-                .CountAsync(b => b.TrainerId == trainer.Id && b.Status == "Accepted");
+                TotalClients = await _context.Bookings
+                    .CountAsync(b => b.TrainerId == trainer.Id && b.Status == "Accepted");
 
-            UpcomingSessions = await _context.Sessions
-                .CountAsync(s => s.TrainerId == trainer.Id && s.SessionDate > DateTime.Now);
+                UpcomingSessions = await _context.Sessions
+                    .CountAsync(s => s.TrainerId == trainer.Id && s.SessionDate > DateTime.Now);
+            }
         }
     }
 }
