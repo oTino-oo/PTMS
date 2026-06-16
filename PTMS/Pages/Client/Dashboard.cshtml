@@ -2,6 +2,13 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Client")]
 
+ @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -143,5 +150,5 @@
             <button>Book Now</button>
         </a>
     </div>
-
+   
 </div>

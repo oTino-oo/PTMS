@@ -61,7 +61,10 @@ namespace PTMS.Pages.Client
             var clientId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(clientId))
-                return Content("User not logged in");
+            {
+                ModelState.AddModelError("", "User not logged in");
+                return Page();
+            }
 
             var booking = new Booking
             {
@@ -78,7 +81,8 @@ namespace PTMS.Pages.Client
             _context.Bookings.Add(booking);
             _context.SaveChanges();
 
-            return Content("BOOKING SUCCESS");
+            TempData["Success"] = "Booking submitted successfully.";
+            return RedirectToPage("/Client/Dashboard");
         }
     }
 }
